@@ -1,2 +1,0 @@
-# ReactBasic
-Created with CodeSandbox
