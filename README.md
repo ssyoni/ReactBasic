@@ -309,9 +309,9 @@ constructor(props){
 * **Unmounting** : 컴포넌트가 브라우저에서 사라질 때 
   * ***componentWillUnmount*** : 컴포넌트가 사라지는 과정에 호출되는 함수 
 
+<br/><br/>
 
-
-***componentDidMount***
+## ***componentDidMount***
 
 ```js
 import React, { Component } from 'react';
@@ -342,9 +342,9 @@ export default App;
 
 ```this.myDiv.getBoundingClientRect()``` : 특정 돔의 설정값들을 알 수 있다. 
 
+<br/>
 
-
-***getDeriveStateFromProps***
+## ***getDeriveStateFromProps***
 
 바로 setState해주는 것이 아니라 어떠한 객체를 바로 return 해주면 된다. 그럼 그 값이 state으로 들어가지게 된다. 
 
@@ -478,15 +478,16 @@ export default App;
 
 <br/>
 
-***shouldComponentUpdate***
+## ***shouldComponentUpdate***
 
 리액트는 변화한 부분만 업데이트해줘서 성능이 잘 나온다. 하지만 변화한 부분만 업데이트 하기 위해서는 VirtualDom 에 한번 더 그려줘야 한다. 
 최적화를위해 사용하는 메소드이다. 
 
 기본적으로 이 함수를 설정하지 않는다면 return true 값이 설정되어있다.
 
+<br/>
 
-***getSnapshotBeforeUpdate***
+## ***getSnapshotBeforeUpdate***
 
 발생하는 시점 
 * render()
@@ -569,8 +570,9 @@ export default ScrollBox;
 
 ```
 
+<br/>
 
-***componentDidUpdate***
+## ***componentDidUpdate***
 
 컴포넌트가 업데이트 되고 난 다음에 호출되는 함수. 
 
@@ -588,7 +590,9 @@ export default ScrollBox;
 업데이트 되기 전의 값을 비교해서 특정 props가 바뀌면 어떠한 작업을 할 수 있게끔 해주는 것이다. 
 
 
-***componentWillUnmount***
+<br/>
+
+## ***componentWillUnmount***
 
 컴포넌트 제거할 때 나타나는 함수 
 
@@ -614,9 +618,9 @@ componentWillUnmount() {
 
 console 에 'good bye...'가 찍히는 것을 볼 수 있다. 
 
+<br/>
 
-
-***componentDidCatch***
+## ***componentDidCatch***
 
 실수로 잡지 못했던 버그들을 잡을 때 사용될 수 있는 에러 캐치 함수 
 
