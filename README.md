@@ -1,5 +1,6 @@
 # react-basic
 리액트 기초 
+v.16.3
 
 <br/>
 
@@ -307,5 +308,118 @@ constructor(props){
 
 * **Unmounting** : 컴포넌트가 브라우저에서 사라질 때 
   * ***componentWillUnmount*** : 컴포넌트가 사라지는 과정에 호출되는 함수 
+
+
+
+
+
+***componentDidMount***
+
+```js
+import React, { Component } from 'react';
+
+class App extends Component {
+  
+  constructor(props){
+    super(props);
+    console.log('constructor');
+    }
+    componentDidMount(){
+      console.log('componentdidMount');
+      console.log(this.myDiv.getBoundingClientRect());
+    }
+  render(){
+    return(
+      /** 특정 돔의 레퍼런스를 가져올 수 있다.*/
+      <div ref={ref => this.myDiv = ref}>
+        <h1>안녕하세요 리액트</h1>
+      </div>
+    )
+  }
+}
+
+export default App;
+
+```
+
+```this.myDiv.getBoundingClientRect()``` : 특정 돔의 설정값들을 알 수 있다. 
+
+
+***getDeriveStateFromProps***
+
+바로 setState해주는 것이 아니라 어떠한 객체를 바로 return 해주면 된다. 그럼 그 값이 state으로 들어가지게 된다. 
+
+컵포넌트 업데이트 될 때 뿐만 아니라 만들어지는 과정에서도 사용된다. 
+
+
+**App.js**
+
+```js
+import React, { Component } from 'react';
+import MyComponent from './MyComponent';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('constructor');
+  }
+  componentDidMount() {
+    console.log('componentdidMount');
+    console.log(this.myDiv.getBoundingClientRect());
+  }
+  render() {
+    return (
+      /** 특정 돔의 레퍼런스를 가져올 수 있다.*/
+      <div ref={ref => (this.myDiv = ref)}>
+        <h1>안녕하세요 리액트</h1>
+        <MyComponent value={5} />
+      </div>
+    );
+  }
+}
+
+export default App;
+
+```
+
+getDeriveStateFromProps 는 ***static*** 값으로 넣어주어야 한다. 
+
+**MyComponent.js**
+
+```js
+import React, { Component } from 'react';
+
+class MyComponent extends Component {
+  state = {
+    value: 0
+  };
+  
+  static getDerivedStateFromProps(nextProps, preState){
+    if (preState.value !== nextProps.value){
+      // 업데이트 전과 후의 value 가 다르다면 
+      return {
+        value : nextProps.value // 변경 후의 value 로 세팅
+     };
+    }
+    // 변경할 사항이 없다면 
+    return null;
+  }
+  
+  render() {
+    return (
+      <div>
+        <p>props : {this.props.value}</p>
+        <p>state : {this.state.value}</p>
+      </div>
+    );
+  }
+}
+
+export default MyComponent;
+
+```
+
+* ```nextProps``` : 다음으로 받아올 props 값
+* ```preState``` : 현재 업데이트 되기 전의 상태 값 
 
 
