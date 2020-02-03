@@ -253,7 +253,10 @@ state 를 사용할 땐 this.setState 함수 사용해준다.
   };
 ```
 
-**TypeError: Cannot read property 'setState' of undefined**
+error code
+```
+TypeError: Cannot read property 'setState' of undefined
+```
 
 자바스크립트에서 this를 사용하려면 constructor 안에서 super(props) 를 명시해줘야 한다. 
 
