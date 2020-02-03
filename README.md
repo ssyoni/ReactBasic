@@ -33,7 +33,7 @@ but, 브라우저는 DOM기반으로 작성되기 때문에 페이지가 그때�
  <br><br><br>
 
 
-> WebPack 과 babel
+> <h3>WebPack 과 babel</h3>
 
 * webpack : 의존성을 분석해 여러개의 모듈을 하나로 묶어주는 역할 
 * babel : 다양한 브라우저 환경에 맞춰 최신 코드로 변환해주는 코드 변환기.
