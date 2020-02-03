@@ -311,8 +311,6 @@ constructor(props){
 
 
 
-
-
 ***componentDidMount***
 
 ```js
@@ -343,6 +341,7 @@ export default App;
 ```
 
 ```this.myDiv.getBoundingClientRect()``` : 특정 돔의 설정값들을 알 수 있다. 
+
 
 
 ***getDeriveStateFromProps***
@@ -384,6 +383,8 @@ export default App;
 
 getDeriveStateFromProps 는 ***static*** 값으로 넣어주어야 한다. 
 
+<br/>
+
 **MyComponent.js**
 
 ```js
@@ -421,5 +422,204 @@ export default MyComponent;
 
 * ```nextProps``` : 다음으로 받아올 props 값
 * ```preState``` : 현재 업데이트 되기 전의 상태 값 
+
+
+getDrivedStateFromPRops 설정 전 
+<img width="405" alt="스크린샷 2020-02-03 오후 8 03 16" src="https://user-images.githubusercontent.com/48245776/73648267-8a872800-46c0-11ea-87a6-243ce6a62489.png">
+
+
+설정 후 
+<img width="334" alt="스크린샷 2020-02-03 오후 8 03 36" src="https://user-images.githubusercontent.com/48245776/73648291-9a067100-46c0-11ea-984f-6948b24d17a0.png">
+
+state 값이 5로 바뀌었다.
+
+<br/>
+
+**props 값 변화 줘보기**
+
+```js
+import React, { Component } from 'react';
+import MyComponent from './MyComponent';
+
+class App extends Component {
+  state = {
+    counter : 1,
+  }
+
+  constructor(props) {
+    super(props);
+    console.log('constructor');
+  }
+  componentDidMount() {
+    console.log('componentdidMount');
+    console.log(this.myDiv.getBoundingClientRect());
+  }
+  /* 클릭 메소드 생성 */
+  handleClick = () => {
+    this.setState({
+      counter: this.state.counter + 1
+    })
+  }
+  render() {
+    return (
+      <div ref={ref => (this.myDiv = ref)}>
+        <MyComponent value={this.state.counter} />
+        <button onClick={this.handleClick}>Click me!</button>
+      </div>
+    );
+  }
+}
+
+export default App;
+
+```
+
+버튼을 누르면 클릭이벤트로 state 값이 증가하고, 증가한 props가 MyComponent로 전달되어서 state값과 동기화시킨다. 
+
+<br/>
+
+***shouldComponentUpdate***
+
+리액트는 변화한 부분만 업데이트해줘서 성능이 잘 나온다. 하지만 변화한 부분만 업데이트 하기 위해서는 VirtualDom 에 한번 더 그려줘야 한다. 
+최적화를위해 사용하는 메소드이다. 
+
+기본적으로 이 함수를 설정하지 않는다면 return true 값이 설정되어있다.
+
+
+***getSnapshotBeforeUpdate***
+
+발생하는 시점 
+* render()
+* getSnapshotBeforeUpdate()
+* componentDidUpdate
+
+Dom 에 반영되기 바로 직전에 호출되는 함수. 
+
+업데이트되기 직전의 돔 상태를 리턴 시켜서 그 값을 나중에 컴포넌트에다가 업데이트해서 받아올 수 있다. 
+
+
+**ScrollBox.js**
+```js
+import React, { Component } from "react";
+import "./ScrollBox.css";
+
+class ScrollBox extends Component {
+  id = 2;
+
+  state = {
+    array: [1]
+  };
+
+  handleInsert = () => {
+    this.setState({
+      array: [this.id++, ...this.state.array]
+    });
+  };
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // DOM 업데이트가 일어나기 직전의 시점입니다.
+    // 새 데이터가 상단에 추가되어도 스크롤바를 유지해보겠습니다.
+    // scrollHeight 는 전 후를 비교해서 스크롤 위치를 설정하기 위함이고,
+    // scrollTop 은, 이 기능이 크롬에 이미 구현이 되어있는데,
+    // 이미 구현이 되어있다면 처리하지 않도록 하기 위함입니다.
+    if (prevState.array !== this.state.array) {
+      const { scrollTop, scrollHeight } = this.list;
+
+      // 여기서 반환 하는 값은 componentDidMount 에서 snapshot 값으로 받아올 수 있습니다.
+      return {
+        scrollTop,
+        scrollHeight
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot) {
+      const { scrollTop } = this.list;
+      if (scrollTop !== snapshot.scrollTop) return; // 기능이 이미 구현되어있다면 처리하지 않습니다.
+      const diff = this.list.scrollHeight - snapshot.scrollHeight;
+      this.list.scrollTop += diff;
+    }
+  }
+
+  render() {
+    const rows = this.state.array.map(number => (
+      <div className="row" key={number}>
+        {number}
+      </div>
+    ));
+
+    return (
+      <div>
+        <div
+          ref={ref => {
+            this.list = ref;
+          }}
+          className="list"
+        >
+          {rows}
+        </div>
+        <button onClick={this.handleInsert}>Click Me</button>
+      </div>
+    );
+  }
+}
+
+export default ScrollBox;
+
+```
+
+
+***componentDidUpdate***
+
+컴포넌트가 업데이트 되고 난 다음에 호출되는 함수. 
+
+
+**MyComponent.js**
+```js
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.value !== prevProps.value){
+      console.log('values 값이 바뀌었다. ', this.props.value)
+    }
+  }
+
+```
+
+업데이트 되기 전의 값을 비교해서 특정 props가 바뀌면 어떠한 작업을 할 수 있게끔 해주는 것이다. 
+
+
+***componentWillUnmount***
+
+컴포넌트 제거할 때 나타나는 함수 
+
+**MyComponent.js**
+```js
+componentWillUnmount() {
+    console.log('good bye...');
+  }
+```
+
+**App.js** 에서 this.state.counter 가 10이 되면 사라지게끔 설정한다. 
+```js
+   <div ref={ref => (this.myDiv = ref)}>
+    {/*앞의 조건이 만족할때 보이게..&&연산자로 구현*/}
+       {this.state.counter < 10 &&  <MyComponent value={this.state.counter} /> }
+        <button onClick={this.handleClick}>Click me!</button>
+      </div>
+```
+
+
+<img width="370" alt="스크린샷 2020-02-03 오후 8 48 49" src="https://user-images.githubusercontent.com/48245776/73650926-a7265e80-46c6-11ea-8e19-e5763a753a5f.png">
+
+
+console 에 'good bye...'가 찍히는 것을 볼 수 있다. 
+
+
+
+***componentDidCatch***
+
+실수로 잡지 못했던 버그들을 잡을 때 사용될 수 있는 에러 캐치 함수 
+
+이 함수는 에러가 발생할 수 있는 컴포넌트의 부모 컴포넌트에서 사용해야 한다. 
 
 
