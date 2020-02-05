@@ -5,7 +5,7 @@ v.16.3
 <br/>
 
 
-> <h3>목차</h3>
+> <h3>목~차</h3>
 
 * [React](#eact)
 * [Webpack & Babel](#WebPack-과-babel)
