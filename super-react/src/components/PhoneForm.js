@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 
 class PhoneForm extends Component {
 
+
     state = {
-        name : ''
+        name : '',
+        phone: ''
     }
 
     //  변경 이벤트 발생하면 state 변경 
@@ -11,17 +13,41 @@ class PhoneForm extends Component {
     // e.target : 이벤트 타겟 = input
     handlerChange = (e) => {
         this.setState({
-            name : e.target.value
+          [e.target.name] : e.target.value 
+        })
+    }
+// 
+    handleSubmit = (e) => {
+        e.preventDefault(); 
+        // dnjsfo
+        this.props.onCreate(this.state);
+        // this.props.onCreate({
+        //     name : this.state.name,
+        //     phone : this.state.phone
+        // })
+
+        //input값 초기화 
+        this.setState({
+            name :'',
+            phone:''
         })
     }
 
     render() {
         return (
-           <form>
-                <input placeholder="이름" onChange={this.handlerChange} value = {this.state.name}/>
-                {this.state.name}
-           </form>               
-         
+           <form onSubmit={this.handleSubmit}>
+                <input placeholder="이름" 
+                        onChange={this.handlerChange} 
+                        value = {this.state.name} 
+                        name="name"/>
+                <input placeholder="전화번호" 
+                        onChange={this.handlerChange} 
+                        value={this.state.phone} 
+                        name="phone"/>
+
+                <button type="submit">등록</button>
+                
+           </form>   
         )
     }
 }
