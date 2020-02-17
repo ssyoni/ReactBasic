@@ -88,6 +88,8 @@ class App extends Component {
 }
 ```
 
+<br/>
+
 App.css 파일을 만들어서 적용해보자 
 
 ```js
@@ -112,6 +114,8 @@ export default App;
 
 * props : 부모컴포넌트에서 자식컴포넌트로 값을 넘겨줄 때 사용된다. 
 
+<br>
+
 ***MyName.js*** (자식 컴포넌트)
 ```js
 import React, {Component} from 'react';
@@ -129,6 +133,8 @@ class MyName extends Component {
 export default MyName;
 ```
 props를 넘겨 받을 때 'this.props' 로 받는다. 
+
+<br>
 
 ***App.js*** (부모 컴포넌트)
 ```js
@@ -168,6 +174,8 @@ class MyName extends Component {
   }
 }
 ```
+
+<br>
 
 ***컴포넌트 밖에서***
 ```js
